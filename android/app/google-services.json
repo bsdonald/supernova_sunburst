@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "530588292517",
+    "project_id": "supernova-sunburst",
+    "storage_bucket": "supernova-sunburst.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530588292517:android:3a803cf1d20ec77a06844c",
+        "android_client_info": {
+          "package_name": "com.bsdonald.sunburst"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530588292517-p49mpnoi914gkmgi8vdr0hpg4vjfsjme.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzBeh9jqMGnzLM7100UwNcDAAtcUFjoh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530588292517-p49mpnoi914gkmgi8vdr0hpg4vjfsjme.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "530588292517-vufrt0r3nvd4qk23pfdaunpsfo81a7t3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bsdonald.sunburst"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
