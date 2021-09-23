@@ -1,13 +1,17 @@
+import 'package:dartz/dartz.dart';
+import 'package:supernova_sunburst/domain/auth/auth_failure.dart';
+import 'package:supernova_sunburst/domain/auth/value_objects.dart';
+
 abstract class IAuthFacade {
-  Future getSignedInUser();
-  Future registerWithEmailAndPassword({
-    required String emailAddress,
-    required String password,
+  Future<Either<AuthFailure, Unit>> getSignedInUser();
+  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
+    required EmailAddress emailAddress,
+    required Password password,
   });
-  Future signInWithEmailAndPassword({
-    required String emailAddress,
-    required String password,
+  Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
+    required EmailAddress emailAddress,
+    required Password password,
   });
-  Future signInWithGoogle();
-  Future<void> signOut();
+  Future<Either<AuthFailure, Unit>> signInWithGoogle();
+  Future<Either<AuthFailure, Unit>> signOut();
 }
