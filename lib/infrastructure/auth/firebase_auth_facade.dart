@@ -1,10 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supernova_sunburst/domain/auth/auth_failure.dart';
 import 'package:supernova_sunburst/domain/auth/i_auth_facade.dart';
+import 'package:supernova_sunburst/domain/auth/user.dart';
 import 'package:supernova_sunburst/domain/auth/value_objects.dart';
+
+import './firebase_user_mapper.dart';
 
 @LazySingleton(as: IAuthFacade)
 class FirebaseAuthFacade implements IAuthFacade {
@@ -14,12 +17,9 @@ class FirebaseAuthFacade implements IAuthFacade {
   FirebaseAuthFacade(this._firebaseAuth, this._googleSignIn);
 
   @override
-  Future<Either<AuthFailure, Unit>> getSignedInUser() {
-    // TODO: implement getSignedInUser
-    throw UnimplementedError();
-  }
+  Future<Option<User>> getSignedInUser() async => optionOf(_firebaseAuth.currentUser?.toDomain());
 
- Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
+  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
     required EmailAddress emailAddress,
     required Password password,
   }) async {
@@ -54,8 +54,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       );
       return right(unit);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'wrong-password' ||
-          e.code == 'user-not-found') {
+      if (e.code == 'wrong-password' || e.code == 'user-not-found') {
         return left(const AuthFailure.invalidEmailAndPasswordCombination());
       } else {
         return left(const AuthFailure.serverError());
@@ -86,8 +85,8 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
-  }
+  Future<void> signOut() => Future.wait([
+        _googleSignIn.signOut(),
+        _firebaseAuth.signOut(),
+      ]);
 }
