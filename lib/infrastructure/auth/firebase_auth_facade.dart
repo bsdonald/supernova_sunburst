@@ -19,49 +19,6 @@ class FirebaseAuthFacade implements IAuthFacade {
   @override
   Future<Option<User>> getSignedInUser() async => optionOf(_firebaseAuth.currentUser?.toDomain());
 
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
-    required EmailAddress emailAddress,
-    required Password password,
-  }) async {
-    final emailAddressStr = emailAddress.getOrCrash();
-    final passwordStr = password.getOrCrash();
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-        email: emailAddressStr,
-        password: passwordStr,
-      );
-      return right(unit);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        return left(const AuthFailure.emailAlreadyInUse());
-      } else {
-        return left(const AuthFailure.serverError());
-      }
-    }
-  }
-
-  @override
-  Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
-    required EmailAddress emailAddress,
-    required Password password,
-  }) async {
-    final emailAddressStr = emailAddress.getOrCrash();
-    final passwordStr = password.getOrCrash();
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: emailAddressStr,
-        password: passwordStr,
-      );
-      return right(unit);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'wrong-password' || e.code == 'user-not-found') {
-        return left(const AuthFailure.invalidEmailAndPasswordCombination());
-      } else {
-        return left(const AuthFailure.serverError());
-      }
-    }
-  }
-
   @override
   Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
     try {
