@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supernova_sunburst/application/auth/auth_bloc.dart';
 import 'package:supernova_sunburst/application/auth/sign_in_form/sign_in_form_bloc.dart';
-import 'package:supernova_sunburst/presentation/routes/router.gr.dart';
 
 class SignInForm extends StatelessWidget {
   const SignInForm({Key? key}) : super(key: key);
@@ -16,26 +14,20 @@ class SignInForm extends StatelessWidget {
           () {},
           (either) => either.fold(
             (failure) {
-              final snackBar = SnackBar(
-                behavior: SnackBarBehavior.floating,
-                content: Text(
-                  failure.map(
-                    cancelledByUser: (_) => 'Cancelled',
-                    invalidEmailAndPasswordCombination: (_) => 'Invalid email and password combination',
-                    serverError: (_) => 'Server error',
-                    emailAlreadyInUse: (_) => 'Email already in use',
-                  ),
+              print("failure");
+              FlushbarHelper.createError(
+                message: failure.map(
+                  cancelledByUser: (_) => 'Cancelled',
+                  serverError: (_) => 'Server error',
+                  emailAlreadyInUse: (_) => 'Email already in use',
+                  invalidEmailAndPasswordCombination: (_) => 'Invalid email and password combination',
                 ),
-                action: SnackBarAction(
-                  label: 'Action',
-                  onPressed: () {},
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              ).show(context);
             },
             (_) {
-              AutoRouter.of(context).replace(const HomeRoute());
-              context.read<AuthBloc>().add(const AuthEvent.authCheckRequested());
+              print('success'); 
+              //AutoRouter.of(context).replace(const HomeRoute());
+              // context.read<AuthBloc>().add(const AuthEvent.authCheckRequested());
             },
           ),
         );

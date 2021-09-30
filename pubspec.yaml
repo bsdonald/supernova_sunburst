@@ -21,18 +21,16 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  another_flushbar: ^1.10.24
   auto_route: ^2.3.2
   cache:
     path: packages/cache
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cloud_firestore: ^2.5.3
   cupertino_icons: ^1.0.2
   dartz: ^0.10.0
   equatable: ^2.0.3
-  firebase_auth: "^3.1.1"
-  firebase_core: "^1.6.0"
+  firebase_auth: ^3.1.1
+  firebase_core: ^1.6.0
   firebase_storage: ^10.0.3
   flutter:
     sdk: flutter

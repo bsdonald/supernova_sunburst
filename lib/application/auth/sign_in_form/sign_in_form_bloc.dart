@@ -6,9 +6,9 @@ import 'package:supernova_sunburst/domain/auth/auth_failure.dart';
 import 'package:supernova_sunburst/domain/auth/i_auth_facade.dart';
 import 'package:supernova_sunburst/domain/auth/value_objects.dart';
 
+part 'sign_in_form_bloc.freezed.dart';
 part 'sign_in_form_event.dart';
 part 'sign_in_form_state.dart';
-part 'sign_in_form_bloc.freezed.dart';
 
 @injectable
 class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
@@ -64,13 +64,13 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     })
         forwardedCall,
   ) async* {
-    Either<AuthFailure, Unit> failureOrSuccess =
-        const Right<AuthFailure, Unit>(unit);
+    Either<AuthFailure, Unit> failureOrSuccess = const Right<AuthFailure, Unit>(unit);
 
     final isEmailValid = state.emailAddress.isValid();
     final isPasswordValid = state.password.isValid();
 
     if (isEmailValid && isPasswordValid) {
+      print('email and password are valid');
       yield state.copyWith(
         isSubmitting: true,
         authFailureOrSuccessOption: none(),
@@ -80,13 +80,12 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
         emailAddress: state.emailAddress,
         password: state.password,
       );
-    }
-
+    } else
+      print('email and password are invalid');
     yield state.copyWith(
       isSubmitting: false,
       showErrorMessages: true,
-      authFailureOrSuccessOption: optionOf(failureOrSuccess),
+      authFailureOrSuccessOption: some(failureOrSuccess),
     );
   }
 }
-
